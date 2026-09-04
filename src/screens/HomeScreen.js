@@ -15,9 +15,14 @@ export default function HomeScreen({ navigation }) {
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
     >
+
+      {/* HEADER */}
       <View style={styles.header}>
-        <Text style={styles.logo}>Melodic</Text>
+        <Text style={styles.logo}>
+          Melodic
+        </Text>
 
         <Ionicons
           name="search-outline"
@@ -26,17 +31,22 @@ export default function HomeScreen({ navigation }) {
         />
       </View>
 
-      <Text style={styles.title}>Bom dia, Usuário</Text>
+      {/* SAUDAÇÃO */}
+      <Text style={styles.title}>
+        Bom dia, Usuário
+      </Text>
 
       <Text style={styles.subtitle}>
         Que bom te ver por aqui!
       </Text>
 
+      {/* CONTINUE OUVINDO */}
       <Text style={styles.sectionTitle}>
         Continue ouvindo
       </Text>
 
       <View style={styles.featuredCard}>
+
         <Text style={styles.featuredTitle}>
           Energia Matinal
         </Text>
@@ -45,21 +55,29 @@ export default function HomeScreen({ navigation }) {
           Mix do dia
         </Text>
 
-        <View style={styles.playButton}>
+        <TouchableOpacity
+          style={styles.playButton}
+          activeOpacity={0.8}
+        >
           <Ionicons
             name="play"
             size={22}
             color="#FFFFFF"
           />
-        </View>
+        </TouchableOpacity>
+
       </View>
 
+      {/* PARA O SEU MOMENTO */}
       <Text style={styles.sectionTitle}>
         Para o seu momento
       </Text>
 
       <View style={styles.row}>
+
+        {/* FOCO */}
         <View style={styles.smallCard}>
+
           <Ionicons
             name="headset-outline"
             size={35}
@@ -73,9 +91,12 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.cardText}>
             Ambient
           </Text>
+
         </View>
 
+        {/* RELAXAMENTO */}
         <View style={styles.smallCard}>
+
           <Ionicons
             name="leaf-outline"
             size={35}
@@ -89,13 +110,20 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.cardText}>
             Acoustic
           </Text>
+
         </View>
+
       </View>
 
+      {/* BOTÃO BIBLIOTECA */}
       <TouchableOpacity
         style={styles.libraryButton}
-        onPress={() => navigation.navigate('Library')}
+        onPress={() =>
+          navigation.navigate('Library')
+        }
+        activeOpacity={0.8}
       >
+
         <Ionicons
           name="library-outline"
           size={20}
@@ -105,12 +133,15 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.libraryButtonText}>
           Minha Biblioteca
         </Text>
+
       </TouchableOpacity>
+
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     backgroundColor: '#FFF8FA',
@@ -119,11 +150,13 @@ const styles = StyleSheet.create({
   content: {
     padding: 22,
     paddingTop: 60,
+    paddingBottom: 40,
   },
 
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 30,
   },
 
@@ -151,6 +184,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 12,
     marginTop: 20,
+    color: '#222',
   },
 
   featuredCard: {
@@ -164,6 +198,7 @@ const styles = StyleSheet.create({
   featuredTitle: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#222',
   },
 
   featuredSubtitle: {
@@ -198,6 +233,7 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontWeight: 'bold',
     marginTop: 20,
+    color: '#222',
   },
 
   cardText: {
@@ -221,4 +257,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+
 });

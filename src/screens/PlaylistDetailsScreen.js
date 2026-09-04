@@ -58,7 +58,7 @@ export default function PlaylistDetailsScreen({
   function handleDelete() {
     Alert.alert(
       'Excluir playlist?',
-      "Deseja realmente excluir `${playlist.name}?`",
+      "Deseja realmente excluir `${playlist.name}`?",
       [
         {
           text: 'Cancelar',
@@ -70,6 +70,7 @@ export default function PlaylistDetailsScreen({
           style: 'destructive',
 
           onPress: async () => {
+
             await deletePlaylist(
               playlist.id
             );
@@ -85,6 +86,29 @@ export default function PlaylistDetailsScreen({
 
   return (
     <View style={styles.container}>
+
+      {/* BOTÃO HOME */}
+      <TouchableOpacity
+        style={styles.homeButton}
+        onPress={() =>
+          navigation.navigate('Home')
+        }
+        activeOpacity={0.8}
+      >
+
+        <Ionicons
+          name="home-outline"
+          size={18}
+          color="#C6004D"
+        />
+
+        <Text style={styles.homeButtonText}>
+          Voltar para Home
+        </Text>
+
+      </TouchableOpacity>
+
+      {/* CAPA */}
       <Image
         source={{
           uri: playlist.cover,
@@ -92,83 +116,75 @@ export default function PlaylistDetailsScreen({
         style={styles.cover}
       />
 
+      {/* NOME */}
       <Text style={styles.title}>
         {playlist.name}
       </Text>
 
+      {/* CATEGORIA */}
       <Text style={styles.category}>
         {playlist.category}
       </Text>
 
-      <Text
-        style={styles.description}
-      >
+      {/* DESCRIÇÃO */}
+      <Text style={styles.description}>
         {playlist.description ||
           'Sem descrição'}
       </Text>
 
-      <Text
-        style={styles.sectionTitle}
-      >
-        {playlist.songs?.length ||
-          0}{' '}
-        músicas
+      {/* QUANTIDADE */}
+      <Text style={styles.sectionTitle}>
+        {playlist.songs?.length || 0} músicas
       </Text>
 
-      {playlist.songs?.length >
-      0 ? (
+      {/* MÚSICAS */}
+      {playlist.songs?.length > 0 ? (
+
         <FlatList
           data={playlist.songs}
           keyExtractor={(item) =>
             item.id
           }
-          showsVerticalScrollIndicator={
-            false
-          }
+          showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
+
             <View style={styles.song}>
+
               <Image
                 source={{
                   uri: item.albumArt,
                 }}
-                style={
-                  styles.albumArt
-                }
+                style={styles.albumArt}
               />
 
-              <View
-                style={
-                  styles.songInfo
-                }
-              >
-                <Text
-                  style={
-                    styles.songTitle
-                  }
-                >
+              <View style={styles.songInfo}>
+
+                <Text style={styles.songTitle}>
                   {item.title}
                 </Text>
 
-                <Text
-                  style={
-                    styles.artist
-                  }
-                >
+                <Text style={styles.artist}>
                   {item.artist}
                 </Text>
+
               </View>
+
             </View>
+
           )}
         />
+
       ) : (
-        <Text
-          style={styles.noSongs}
-        >
+
+        <Text style={styles.noSongs}>
           Nenhuma música adicionada.
         </Text>
+
       )}
 
+      {/* BOTÕES */}
       <View style={styles.buttons}>
+
         <TouchableOpacity
           style={styles.editButton}
           onPress={() =>
@@ -179,161 +195,179 @@ export default function PlaylistDetailsScreen({
               }
             )
           }
+          activeOpacity={0.8}
         >
+
           <Ionicons
             name="create-outline"
             size={19}
             color="#FFFFFF"
           />
 
-          <Text
-            style={
-              styles.editButtonText
-            }
-          >
+          <Text style={styles.editButtonText}>
             Editar
           </Text>
+
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={
-            styles.deleteButton
-          }
+          style={styles.deleteButton}
           onPress={handleDelete}
+          activeOpacity={0.8}
         >
+
           <Ionicons
             name="trash-outline"
             size={19}
             color="#C6004D"
           />
 
-          <Text
-            style={
-              styles.deleteButtonText
-            }
-          >
+          <Text style={styles.deleteButtonText}>
             Excluir
           </Text>
+
         </TouchableOpacity>
+
       </View>
+
     </View>
   );
 }
 
-const styles =
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#FFF8FA',
-      padding: 20,
-    },
+const styles = StyleSheet.create({
 
-    cover: {
-      width: '100%',
-      height: 220,
-      borderRadius: 24,
-      backgroundColor: '#F4DCE4',
-      marginBottom: 20,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#FFF8FA',
+    padding: 20,
+  },
 
-    title: {
-      fontSize: 28,
-      fontWeight: '800',
-      color: '#222',
-    },
+  homeButton: {
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 15,
+    paddingVertical: 8,
+    paddingHorizontal: 13,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#C6004D',
+  },
 
-    category: {
-      color: '#C6004D',
-      fontWeight: '700',
-      marginTop: 6,
-    },
+  homeButtonText: {
+    color: '#C6004D',
+    fontWeight: '700',
+    fontSize: 13,
+  },
 
-    description: {
-      color: '#777',
-      marginTop: 6,
-      lineHeight: 20,
-    },
+  cover: {
+    width: '100%',
+    height: 220,
+    borderRadius: 24,
+    backgroundColor: '#F4DCE4',
+    marginBottom: 20,
+  },
 
-    sectionTitle: {
-      fontSize: 19,
-      fontWeight: '800',
-      marginTop: 25,
-      marginBottom: 12,
-    },
+  title: {
+    fontSize: 28,
+    fontWeight: '800',
+    color: '#222',
+  },
 
-    song: {
-      backgroundColor: '#FFFFFF',
-      padding: 10,
-      borderRadius: 14,
-      marginBottom: 9,
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
+  category: {
+    color: '#C6004D',
+    fontWeight: '700',
+    marginTop: 6,
+  },
 
-    albumArt: {
-      width: 52,
-      height: 52,
-      borderRadius: 10,
-      backgroundColor: '#F4DDE5',
-    },
+  description: {
+    color: '#777',
+    marginTop: 6,
+    lineHeight: 20,
+  },
 
-    songInfo: {
-      flex: 1,
-      marginLeft: 12,
-    },
+  sectionTitle: {
+    fontSize: 19,
+    fontWeight: '800',
+    marginTop: 25,
+    marginBottom: 12,
+    color: '#222',
+  },
 
-    songTitle: {
-      fontWeight: '700',
-    },
+  song: {
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+    borderRadius: 14,
+    marginBottom: 9,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 
-    artist: {
-      color: '#888',
-      marginTop: 3,
-    },
+  albumArt: {
+    width: 52,
+    height: 52,
+    borderRadius: 10,
+    backgroundColor: '#F4DDE5',
+  },
 
-    noSongs: {
-      color: '#888',
-    },
+  songInfo: {
+    flex: 1,
+    marginLeft: 12,
+  },
 
-    buttons: {
-      flexDirection: 'row',
-      gap: 10,
-      marginTop: 20,
-      marginBottom: 20,
-    },
+  songTitle: {
+    fontWeight: '700',
+    color: '#222',
+  },
 
-    editButton: {
-      flex: 1,
-      backgroundColor: '#C6004D',
-      padding: 15,
-      borderRadius: 25,
-      alignItems: 'center',
-      justifyContent:
-        'center',
-      flexDirection: 'row',
-      gap: 6,
-    },
+  artist: {
+    color: '#888',
+    marginTop: 3,
+  },
 
-    deleteButton: {
-      flex: 1,
-      borderWidth: 1,
-      borderColor: '#C6004D',
-      padding: 15,
-      borderRadius: 25,
-      alignItems: 'center',
-      justifyContent:
-        'center',
-      flexDirection: 'row',
-      gap: 6,
-    },
+  noSongs: {
+    color: '#888',
+  },
 
-    editButtonText: {
-      color: '#FFFFFF',
-      fontWeight: '700',
-    },
+  buttons: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 20,
+    marginBottom: 20,
+  },
 
-    deleteButtonText: {
-      color: '#C6004D',
-      fontWeight: '700',
-    },
-  });
+  editButton: {
+    flex: 1,
+    backgroundColor: '#C6004D',
+    padding: 15,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 6,
+  },
+
+  deleteButton: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#C6004D',
+    padding: 15,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 6,
+  },
+
+  editButtonText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+  },
+
+  deleteButtonText: {
+    color: '#C6004D',
+    fontWeight: '700',
+  },
+
+});

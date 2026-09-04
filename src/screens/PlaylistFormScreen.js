@@ -14,6 +14,8 @@ import {
   Image,
 } from 'react-native';
 
+import { Ionicons } from '@expo/vector-icons';
+
 import {
   savePlaylist,
   updatePlaylist,
@@ -26,39 +28,26 @@ export default function PlaylistFormScreen({
   const playlistToEdit =
     route.params?.playlist;
 
-  const [name, setName] =
-    useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [cover, setCover] = useState('');
 
-  const [description, setDescription] =
-    useState('');
+  const [songName, setSongName] = useState('');
+  const [artist, setArtist] = useState('');
+  const [albumArt, setAlbumArt] = useState('');
 
-  const [category, setCategory] =
-    useState('');
-
-  const [cover, setCover] =
-    useState('');
-
-  const [songName, setSongName] =
-    useState('');
-
-  const [artist, setArtist] =
-    useState('');
-
-  const [albumArt, setAlbumArt] =
-    useState('');
-
-  const [songs, setSongs] =
-    useState([]);
+  const [songs, setSongs] = useState([]);
 
   useEffect(() => {
     if (playlistToEdit) {
+
       setName(
         playlistToEdit.name || ''
       );
 
       setDescription(
-        playlistToEdit.description ||
-          ''
+        playlistToEdit.description || ''
       );
 
       setCategory(
@@ -85,15 +74,16 @@ export default function PlaylistFormScreen({
       return;
     }
 
-    const id =
-      Date.now().toString();
+    const id = Date.now().toString();
 
     const newSong = {
       id,
       title: songName.trim(),
+
       artist:
         artist.trim() ||
         'Artista desconhecido',
+
       albumArt:
         albumArt.trim() ||
         `https://picsum.photos/seed/song-${id}/200`,
@@ -129,16 +119,21 @@ export default function PlaylistFormScreen({
 
     const playlistData = {
       name: name.trim(),
+
       description:
         description.trim(),
+
       category:
         category.trim() ||
         'Personalizada',
+
       cover: cover.trim(),
+
       songs,
     };
 
     if (playlistToEdit) {
+
       await updatePlaylist(
         playlistToEdit.id,
         playlistData
@@ -148,7 +143,9 @@ export default function PlaylistFormScreen({
         'Sucesso',
         'Playlist atualizada!'
       );
+
     } else {
+
       await savePlaylist(
         playlistData
       );
@@ -165,16 +162,38 @@ export default function PlaylistFormScreen({
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={
-        styles.content
-      }
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
     >
+
+      {/* BOTÃO HOME */}
+      <TouchableOpacity
+        style={styles.homeButton}
+        onPress={() =>
+          navigation.navigate('Home')
+        }
+        activeOpacity={0.8}
+      >
+
+        <Ionicons
+          name="home-outline"
+          size={18}
+          color="#C6004D"
+        />
+
+        <Text style={styles.homeButtonText}>
+          Voltar para Home
+        </Text>
+
+      </TouchableOpacity>
+
       <Text style={styles.title}>
         {playlistToEdit
           ? 'Editar Playlist'
           : 'Nova Playlist'}
       </Text>
 
+      {/* NOME */}
       <Text style={styles.label}>
         Nome da playlist
       </Text>
@@ -186,6 +205,7 @@ export default function PlaylistFormScreen({
         onChangeText={setName}
       />
 
+      {/* DESCRIÇÃO */}
       <Text style={styles.label}>
         Descrição
       </Text>
@@ -201,6 +221,7 @@ export default function PlaylistFormScreen({
         multiline
       />
 
+      {/* CATEGORIA */}
       <Text style={styles.label}>
         Categoria
       </Text>
@@ -212,6 +233,7 @@ export default function PlaylistFormScreen({
         onChangeText={setCategory}
       />
 
+      {/* CAPA */}
       <Text style={styles.label}>
         URL da capa
       </Text>
@@ -231,6 +253,7 @@ export default function PlaylistFormScreen({
         />
       ) : null}
 
+      {/* MÚSICA */}
       <Text style={styles.sectionTitle}>
         Adicionar Música
       </Text>
@@ -278,24 +301,31 @@ export default function PlaylistFormScreen({
         />
       ) : null}
 
+      {/* ADICIONAR */}
       <TouchableOpacity
         style={styles.addButton}
         onPress={addSong}
+        activeOpacity={0.8}
       >
+
         <Text style={styles.addText}>
           + Adicionar Música
         </Text>
+
       </TouchableOpacity>
 
+      {/* MÚSICAS ADICIONADAS */}
       <Text style={styles.sectionTitle}>
         Músicas adicionadas
       </Text>
 
       {songs.map((song) => (
+
         <View
           key={song.id}
           style={styles.song}
         >
+
           <Image
             source={{
               uri: song.albumArt,
@@ -304,17 +334,15 @@ export default function PlaylistFormScreen({
           />
 
           <View style={styles.songInfo}>
-            <Text
-              style={styles.songTitle}
-            >
+
+            <Text style={styles.songTitle}>
               {song.title}
             </Text>
 
-            <Text
-              style={styles.songArtist}
-            >
+            <Text style={styles.songArtist}>
               {song.artist}
             </Text>
+
           </View>
 
           <TouchableOpacity
@@ -322,151 +350,178 @@ export default function PlaylistFormScreen({
               removeSong(song.id)
             }
           >
-            <Text
-              style={styles.removeText}
-            >
+
+            <Text style={styles.removeText}>
               Excluir
             </Text>
+
           </TouchableOpacity>
+
         </View>
+
       ))}
 
+      {/* SALVAR */}
       <TouchableOpacity
         style={styles.saveButton}
         onPress={handleSave}
+        activeOpacity={0.8}
       >
-        <Text
-          style={styles.saveText}
-        >
+
+        <Text style={styles.saveText}>
           {playlistToEdit
             ? 'Salvar Alterações'
             : 'Cadastrar Playlist'}
         </Text>
+
       </TouchableOpacity>
+
     </ScrollView>
   );
 }
 
-const styles =
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#FFF8FA',
-    },
+const styles = StyleSheet.create({
 
-    content: {
-      padding: 20,
-      paddingBottom: 50,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#FFF8FA',
+  },
 
-    title: {
-      fontSize: 27,
-      fontWeight: '800',
-      marginBottom: 15,
-      color: '#222',
-    },
+  content: {
+    padding: 20,
+    paddingBottom: 50,
+  },
 
-    label: {
-      fontWeight: '600',
-      marginBottom: 7,
-      marginTop: 14,
-      color: '#333',
-    },
+  homeButton: {
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 13,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#C6004D',
+  },
 
-    input: {
-      backgroundColor: '#FFFFFF',
-      borderWidth: 1,
-      borderColor: '#F0D7DF',
-      borderRadius: 13,
-      padding: 14,
-    },
+  homeButtonText: {
+    color: '#C6004D',
+    fontWeight: '700',
+    fontSize: 13,
+  },
 
-    textArea: {
-      height: 90,
-      textAlignVertical: 'top',
-    },
+  title: {
+    fontSize: 27,
+    fontWeight: '800',
+    marginBottom: 15,
+    color: '#222',
+  },
 
-    coverPreview: {
-      width: '100%',
-      height: 180,
-      borderRadius: 20,
-      marginTop: 14,
-      backgroundColor: '#F3DDE4',
-    },
+  label: {
+    fontWeight: '600',
+    marginBottom: 7,
+    marginTop: 14,
+    color: '#333',
+  },
 
-    albumPreview: {
-      width: 90,
-      height: 90,
-      borderRadius: 15,
-      marginTop: 12,
-    },
+  input: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#F0D7DF',
+    borderRadius: 13,
+    padding: 14,
+  },
 
-    sectionTitle: {
-      fontSize: 20,
-      fontWeight: '800',
-      marginTop: 28,
-    },
+  textArea: {
+    height: 90,
+    textAlignVertical: 'top',
+  },
 
-    addButton: {
-      borderWidth: 1,
-      borderColor: '#C6004D',
-      borderRadius: 25,
-      padding: 14,
-      alignItems: 'center',
-      marginTop: 20,
-    },
+  coverPreview: {
+    width: '100%',
+    height: 180,
+    borderRadius: 20,
+    marginTop: 14,
+    backgroundColor: '#F3DDE4',
+  },
 
-    addText: {
-      color: '#C6004D',
-      fontWeight: '700',
-    },
+  albumPreview: {
+    width: 90,
+    height: 90,
+    borderRadius: 15,
+    marginTop: 12,
+  },
 
-    song: {
-      backgroundColor: '#FFFFFF',
-      borderRadius: 14,
-      padding: 10,
-      marginTop: 10,
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    marginTop: 28,
+    color: '#222',
+  },
 
-    songImage: {
-      width: 52,
-      height: 52,
-      borderRadius: 10,
-      backgroundColor: '#F4DDE5',
-    },
+  addButton: {
+    borderWidth: 1,
+    borderColor: '#C6004D',
+    borderRadius: 25,
+    padding: 14,
+    alignItems: 'center',
+    marginTop: 20,
+  },
 
-    songInfo: {
-      flex: 1,
-      marginLeft: 12,
-    },
+  addText: {
+    color: '#C6004D',
+    fontWeight: '700',
+  },
 
-    songTitle: {
-      fontWeight: '700',
-    },
+  song: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    padding: 10,
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 
-    songArtist: {
-      color: '#888',
-      marginTop: 3,
-    },
+  songImage: {
+    width: 52,
+    height: 52,
+    borderRadius: 10,
+    backgroundColor: '#F4DDE5',
+  },
 
-    removeText: {
-      color: '#C6004D',
-      fontWeight: '600',
-    },
+  songInfo: {
+    flex: 1,
+    marginLeft: 12,
+  },
 
-    saveButton: {
-      backgroundColor: '#C6004D',
-      borderRadius: 25,
-      padding: 17,
-      alignItems: 'center',
-      marginTop: 30,
-    },
+  songTitle: {
+    fontWeight: '700',
+    color: '#222',
+  },
 
-    saveText: {
-      color: '#FFFFFF',
-      fontWeight: '700',
-      fontSize: 16,
-    },
-  });
+  songArtist: {
+    color: '#888',
+    marginTop: 3,
+  },
+
+  removeText: {
+    color: '#C6004D',
+    fontWeight: '600',
+  },
+
+  saveButton: {
+    backgroundColor: '#C6004D',
+    borderRadius: 25,
+    padding: 17,
+    alignItems: 'center',
+    marginTop: 30,
+  },
+
+  saveText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+
+});

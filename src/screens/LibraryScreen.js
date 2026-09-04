@@ -26,8 +26,7 @@ import {
 export default function LibraryScreen({
   navigation,
 }) {
-  const [playlists, setPlaylists] =
-    useState([]);
+  const [playlists, setPlaylists] = useState([]);
 
   async function loadPlaylists() {
     const data = await getPlaylists();
@@ -42,7 +41,10 @@ export default function LibraryScreen({
 
   return (
     <View style={styles.container}>
+
+      {/* HEADER */}
       <View style={styles.header}>
+
         <View>
           <Text style={styles.logo}>
             Melodic
@@ -56,16 +58,39 @@ export default function LibraryScreen({
             Minhas Playlists
           </Text>
         </View>
+
       </View>
 
+      {/* BOTÃO HOME */}
+      <TouchableOpacity
+        style={styles.homeButton}
+        onPress={() =>
+          navigation.navigate('Home')
+        }
+        activeOpacity={0.8}
+      >
+
+        <Ionicons
+          name="home-outline"
+          size={18}
+          color="#C6004D"
+        />
+
+        <Text style={styles.homeButtonText}>
+          Voltar para Home
+        </Text>
+
+      </TouchableOpacity>
+
+      {/* CRIAR PLAYLIST */}
       <TouchableOpacity
         style={styles.createButton}
         onPress={() =>
-          navigation.navigate(
-            'PlaylistForm'
-          )
+          navigation.navigate('PlaylistForm')
         }
+        activeOpacity={0.8}
       >
+
         <Ionicons
           name="add"
           size={19}
@@ -75,10 +100,14 @@ export default function LibraryScreen({
         <Text style={styles.createText}>
           Criar Nova Playlist
         </Text>
+
       </TouchableOpacity>
 
+      {/* PLAYLISTS */}
       {playlists.length === 0 ? (
+
         <View style={styles.empty}>
+
           <Ionicons
             name="musical-notes-outline"
             size={70}
@@ -92,20 +121,20 @@ export default function LibraryScreen({
           <Text style={styles.emptyText}>
             Crie sua primeira playlist.
           </Text>
+
         </View>
+
       ) : (
+
         <FlatList
           data={playlists}
-          keyExtractor={(item) =>
-            item.id
-          }
-          showsVerticalScrollIndicator={
-            false
-          }
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingBottom: 40,
           }}
           renderItem={({ item }) => (
+
             <PlaylistCard
               playlist={item}
               onPress={() =>
@@ -117,14 +146,18 @@ export default function LibraryScreen({
                 )
               }
             />
+
           )}
         />
+
       )}
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     backgroundColor: '#FFF8FA',
@@ -133,7 +166,7 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    marginBottom: 15,
+    marginBottom: 10,
   },
 
   logo: {
@@ -152,6 +185,25 @@ const styles = StyleSheet.create({
   subtitle: {
     color: '#777',
     marginTop: 3,
+  },
+
+  homeButton: {
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 18,
+    paddingVertical: 8,
+    paddingHorizontal: 13,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#C6004D',
+  },
+
+  homeButtonText: {
+    color: '#C6004D',
+    fontWeight: '700',
+    fontSize: 13,
   },
 
   createButton: {
@@ -182,10 +234,12 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: '700',
     marginTop: 18,
+    color: '#222',
   },
 
   emptyText: {
     color: '#888',
     marginTop: 5,
   },
+
 });

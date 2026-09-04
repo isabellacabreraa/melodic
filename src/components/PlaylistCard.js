@@ -20,6 +20,7 @@ export default function PlaylistCard({
       onPress={onPress}
       activeOpacity={0.8}
     >
+
       <Image
         source={{
           uri: playlist.cover,
@@ -28,6 +29,7 @@ export default function PlaylistCard({
       />
 
       <View style={styles.content}>
+
         <Text
           style={styles.title}
           numberOfLines={1}
@@ -39,22 +41,21 @@ export default function PlaylistCard({
           style={styles.description}
           numberOfLines={2}
         >
-          {playlist.description ||
-            'Sem descrição'}
+          {playlist.description || 'Sem descrição'}
         </Text>
 
         <View style={styles.infoRow}>
+
           <Text style={styles.category}>
-            {playlist.category ||
-              'Playlist'}
+            {playlist.category || 'Playlist'}
           </Text>
 
           <Text style={styles.count}>
-            {playlist.songs?.length ||
-              0}{' '}
-            músicas
+            {playlist.songs?.length || 0} músicas
           </Text>
+
         </View>
+
       </View>
 
       <Ionicons
@@ -62,11 +63,13 @@ export default function PlaylistCard({
         size={20}
         color="#B4A2AA"
       />
+
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
+
   card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
@@ -119,4 +122,5 @@ const styles = StyleSheet.create({
     color: '#9A8D92',
     fontSize: 11,
   },
+
 });
